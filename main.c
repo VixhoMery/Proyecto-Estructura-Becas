@@ -23,11 +23,11 @@ typedef struct {
   int notasEM;
   int discapacidad;
   int originario;
+  int apela;
 } tipoBeca;
 
 typedef struct {
     char rutEstudiante[12];
-    char nombreBeca[50];
     char estado[20]; // Estado puede ser "En revisión", "Aprobada", "Rechazada"
 } Solicitud;
 
@@ -88,7 +88,7 @@ void mostrarMenuAdminAlumno(){
 void mostrarMenuAlumno(){
   puts("1) Ingresar o Completar perfil");
   puts("2) Postular a Beca");
-  puts("3) Seguimiento de Postulación");
+  puts("3) Seguimiento de Apelación");
   puts("4) Volver");
 }
 
@@ -327,6 +327,7 @@ void postularBeca(Map *estudiantes, List *becas, Queue *solicitudes)
       aux = list_next(becas);
     } else {
       aux = list_next(becas);
+      requisitoAprobado = 1;
     }
   }
 
@@ -350,12 +351,6 @@ void postularBeca(Map *estudiantes, List *becas, Queue *solicitudes)
       printf("Opción no válida, intente de nuevo");
   }
   
-
-  
-  //Solicitar nombre de la beca a postular.
-  char nombreBeca[100];
-  printf("Ingrese el nombre de la beca a la que desea postular :");
-  scanf(" %[^\n]", nombreBeca);
 
   //Verificar si existe la beca en la lista de becas.
   tipoBeca *becaExiste = NULL;
@@ -455,6 +450,7 @@ void apelar(Usuario *estudiante, Queue *cola) {
 }
 
 void seguimientoPostulacion(Queue *solicitudes) {
+  //esto debe cambiar por apelación
   char rut[12];
   printf("Ingrese su RUT: ");
   scanf(" %s", rut);
