@@ -32,8 +32,8 @@ La aplicación cuenta con dos menús, para el estudiante y para el administrador
 - Seguimiento de becas.
 
 ## Funcionando correctamente.
-- Ingresar perfiles personales y académicos funciona esta operativo, se guardan correctamente los datos en el hashmap.
-- Postularse a becas de interés esta funcionando correctamente.
+- Funcion para ingresar perfiles personales y académicos por parte de los estudiantes funciona en un estado optimo, se guardan correctamente los datos de los estudiantes en el hashmap.
+- Funcion para postularse a becas de interés esta funcionando correctamente.
 - La funcion de realizar seguimiento del estado de apelaciones se encuentra operativa, muestra la apelación hecha por el estudiante con su respectivo estado y justificacion.
 
 - Función de gestionar estudiantes funciona correcta y eficientemente en sus operaciones de agregar estudiantes, actualizar datos de estudiantes y eliminar estudiantes de la tabla hash.
