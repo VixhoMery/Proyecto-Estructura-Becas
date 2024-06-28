@@ -371,7 +371,7 @@ void postularBeca(HashMap *estudiantes, List *becas, Queue *solicitudes) {
     Usuario *estudiante = map_search(estudiantes, rut)->value;
 
     // Mostrar becas disponibles para el estudiante
-    printf("Becas disponibles para %s:\n", estudiante->rut);
+    printf("\nBecas disponibles para %s:\n", estudiante->rut);
     int becasEncontradas = 0;
     List *becasApeladas = list_create(); // Lista para almacenar becas a elección
     tipoBeca *aux = list_first(becas);
@@ -665,71 +665,68 @@ void gestionarEstudiantes(HashMap *estudiantes)
   limpiarPantalla();
 }
 
-void revisarSolicitudes(Queue *solicitudes, HashMap *estudiantes)
-{
-  if(queue_front(solicitudes) == NULL)
-  {
-    printf("No hay solicitudes pendientes.\n");
-    presioneTeclaParaContinuar();
-    return;
-  }
-  Solicitud* solicitud;
-  int opcion;
-  char opcionVolver;
-
-  while((solicitud = queue_remove(solicitudes)) != NULL)
-  {
-    printf("Rut del estudiante: %s\n", solicitud->rutEstudiante);
-
-    //Para que aparezca en el menú de estudiante
-    Usuario *estudianteActual = map_search(estudiantes, solicitud->rutEstudiante)->value;
-    tipoBeca *aux = list_first(solicitud->becasEstudiantes);
-
-    //Imprimir la lista de becas
-    while(aux != NULL) {
-      printf("Nombre de la beca: %s\n", aux->nombre);
-    }
-    
-    printf("Estado actual de la solicitud: %s\n", solicitud->estado);
-    printf("¿Qué desea hacer con la solicitud?\n");
-    printf("1) Aprobar.\n");
-    printf("2) Rechazar.\n");
-    printf("Ingrese su opción: ");
-    scanf("%d", &opcion);
-
-    switch(opcion)
-    {
-      case 1:
-        strcpy(solicitud->estado, "Aprobada");
-        printf("Solicitud aprobada.\n");
-        estudianteActual->apela = 3; //aprobada
-        break;
-
-      case 2:
-        strcpy(solicitud->estado, "Rechazada");
-        printf("Solicitud rechazada.\n");
-        estudianteActual->apela = 2; // rechazada
-        break;
-
-      default:
-        printf("Opción no valida\n");
-        break;
-    }
-
-    printf("Desea regresar al menú principal? (s|n): ");
-    scanf("%c", &opcionVolver);
-
-    switch(opcionVolver) {
-      case 's':
-        printf("Volviendo...\n");
+void revisarSolicitudes(Queue *solicitudes, HashMap *estudiantes) {
+    if(queue_front(solicitudes) == NULL) {
+        printf("No hay solicitudes pendientes.\n");
         presioneTeclaParaContinuar();
         return;
-      case 'n':
-        break;
     }
-    
+
+    Solicitud* solicitud;
+    int opcion;
+    char opcionVolver;
+
+    while((solicitud = queue_remove(solicitudes)) != NULL) {
+        printf("Rut del estudiante: %s\n", solicitud->rutEstudiante);
+
+        //Para que aparezca en el menú de estudiante
+        Usuario *estudianteActual = map_search(estudiantes, solicitud->rutEstudiante)->value;
+        tipoBeca *aux = list_first(solicitud->becasEstudiantes);
+
+        //Imprimir la lista de becas
+        int indice = 1;
+        while(aux != NULL) {
+            printf("%d) Nombre de la beca: %s\n", indice, aux->nombre);
+            aux = list_next(solicitud->becasEstudiantes);
+            indice++;
+        }
+
+        printf("Estado actual de la solicitud: %s\n", solicitud->estado);
+        printf("¿Qué desea hacer con la solicitud?\n");
+        printf("1) Aprobar.\n");
+        printf("2) Rechazar.\n");
+        printf("Ingrese su opción: ");
+        scanf("%d", &opcion);
+
+        switch(opcion) {
+            case 1:
+                strcpy(solicitud->estado, "Aprobada");
+                printf("Solicitud aprobada.\n");
+                estudianteActual->apela = 3; //aprobada
+                break;
+            case 2:
+                strcpy(solicitud->estado, "Rechazada");
+                printf("Solicitud rechazada.\n");
+                estudianteActual->apela = 2; //rechazada
+                break;
+            default:
+                printf("Opción no válida\n");
+                break;
+        }
+
+        printf("¿Desea regresar al menú principal? (s/n): ");
+        scanf(" %c", &opcionVolver); // Nota: espacio antes de %c para consumir cualquier caracter de nueva línea pendiente
+
+        if(opcionVolver == 's' || opcionVolver == 'S') {
+            printf("Volviendo...\n");
+            presioneTeclaParaContinuar();
+            return;
+        }
+
+        presioneTeclaParaContinuar();
+    }
+    printf("No hay más solicitudes pendientes.\n");
     presioneTeclaParaContinuar();
-  }
 }
 
 void mostrarBecas(List *becas) {
