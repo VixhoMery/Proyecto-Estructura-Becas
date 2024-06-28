@@ -290,6 +290,29 @@ void completarPerfil(HashMap *estudiantes)
   scanf("%d", &nuevoEstudiante->originario);
 
 
+  char confirmacion[10]; // Aumentado el tamaño para permitir "si" o "no"
+  while (1) {
+      printf("¿Son correctos estos datos? (si/no): ");
+      scanf(" %9s", confirmacion); // Limita la lectura a 9 caracteres para evitar desbordamientos
+
+      if (strcmp(confirmacion, "si") == 0) {
+         // Insertar el nuevo usuario en el hashmap
+          map_insert(estudiantes, nuevoEstudiante->rut, nuevoEstudiante);
+          printf("Perfil completado exitosamente.\n");
+          break; // Salir del bucle si la confirmación es "si"
+      } else if (strcmp(confirmacion, "no") == 0) {
+          // Liberar la memoria reservada si los datos no son confirmados
+          free(nuevoEstudiante);
+          printf("Ingreso de datos cancelado.\n");
+          break; // Salir del bucle si la confirmación es "no"
+      } else {
+
+          printf("Por favor, ingrese 'si' o 'no'.\n");
+          // Limpiar el búfer de entrada para evitar problemas en la siguiente iteración del bucle
+          while (getchar() != '\n');
+      }
+    }
+
   //Insertar el uevo estudiante en el mapa.
   map_insert(estudiantes, nuevoEstudiante->rut, nuevoEstudiante);
   printf("Perfil completado exitosamente.\n");
