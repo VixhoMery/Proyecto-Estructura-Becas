@@ -23,8 +23,8 @@ La aplicación cuenta con dos menús, para el estudiante y para el administrador
 -
 
 ## Problemas conocidos.
-- Funcionalidad de postulación a becas.(ERROR AL MOMENTO DE MOSTRAR LA LISTA DE BECAS A POSTULAR, NO SE ASIGNAN BECAS) Falta implementar correcta logica
-- Falta implementar tabla hash
+- 
+- 
 - 
 
 ## A mejorar.
