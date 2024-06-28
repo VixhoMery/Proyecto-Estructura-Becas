@@ -50,6 +50,7 @@ void mostrarMenuAdmin();
 //Prototipos funciones de inicialización y extras
 void inicializarBecas(List*);
 void mostrarBeca(tipoBeca*, Usuario*);
+char *obtenerNombreEstudiante(HashMap *estudiantes, char *rut);
 
 // Prototipos funciones de usuario
 void completarPerfil(HashMap*);
@@ -62,7 +63,7 @@ void gestionarEstudiantes(HashMap *);
 void revisarSolicitudes(Queue *, HashMap*);
 void gestionarBecas(List *);
 void aprobarRechazarSolicitudes(Queue *);
-void seguimientoBecas(List *);
+void seguimientoBecas(HashMap *estudiantes, List *becas);
 
 // Prototipo de función para validar RUT
 int validarRUT(const char* rut);
@@ -179,6 +180,16 @@ void inicializarBecas(List *listaBecas) {
   }
 }
 
+// Función auxiliar para obtener el nombre de un estudiante a partir de su rut
+char *obtenerNombreEstudiante(HashMap *estudiantes, char *rut) {
+    MapPair *pair = map_search(estudiantes, rut);
+    if (pair != NULL) {
+        Usuario *estudiante = (Usuario *)pair->value;
+        return estudiante->nombreEstudiante;
+    }
+    return "Nombre no encontrado";
+}
+
 // Funcion usuarios
 void opcionUsuario(HashMap *estudiantes, List *becas, Queue *solicitudes) {
   int opcion;
@@ -228,7 +239,7 @@ void opcionAdmin(HashMap *estudiantes, List *becas, Queue *solicitudes) {
         gestionarBecas(becas);
         break;
       case 4:
-        seguimientoBecas(becas);
+        seguimientoBecas(estudiantes, becas);
         break;
       case 5:
         puts("Volviendo al menú principal...");
@@ -721,178 +732,175 @@ void revisarSolicitudes(Queue *solicitudes, HashMap *estudiantes)
   }
 }
 
-void gestionarBecas(List *becas)
-{
-  // Permite agregar, actualizar o eliminar becas
-  // Aquí debe implementar la lógica para gestionar becas
-  int opcion;
-  do
-  {
-    limpiarPantalla();
-    puts("1) Agregar nueva beca.");
-    puts("2) Actualizar datos de una beca.");
-    puts("3) Eliminar beca del sistema.");
-    puts("4) Volver menu anterior.");
-
-    printf("Ingrese su opción: ");
-    scanf("%d", &opcion);
-
-    switch(opcion)
-    {
-      case 1: 
-      {
-        //Agregar nueva beca
-        tipoBeca *nuevaBeca = malloc(sizeof(tipoBeca));
-        if(nuevaBeca == NULL)
-        {
-          printf("Error al reservar memoria para la nueva beca. (Linea 575)\n");
-          break;
-        }
-
-        printf("Ingrese el nombre de la beca: \n");
-        scanf(" %[^\n]s", nuevaBeca->nombre);
-        printf("Ingrese el Requisito Socioeconómico de la beca: \n");
-        scanf(" %d", &nuevaBeca->socioEconomico);
-        printf("Ingrese el Puntaje Ponderado PAES: \n");
-        scanf("%d", &nuevaBeca->puntaje);
-        printf("Ingrese el Promedio NEM: \n");
-        scanf(" %d", &nuevaBeca->notasEM);
-        printf("Ingrese parámetro de discapacidad (1 = sí, 0 = no): \n");
-        scanf("%d", &nuevaBeca->discapacidad);
-        printf("Ingrese parámetro de pueblo originario (1 = sí, 0 = no): \n");
-        scanf("%d", &nuevaBeca->originario);
-
-        list_pushBack(becas, nuevaBeca);
-        printf("Beca agregada exitosamente.\n");
-        break;
-      }
-      case 2:
-      {
-        //Actualizar datos de una beca
-        char nombreBeca[50];
-        printf("Ingrese el nombre de la beca que desea actualizar: ");
-        scanf(" %[^\n]s", nombreBeca);
-
-        tipoBeca *beca = NULL;
-        tipoBeca *auxCurrent = list_first(becas);
-        while(auxCurrent != NULL)
-        {
-          if(strcmp(auxCurrent->nombre, nombreBeca) == 0)
-          {
-            beca = auxCurrent;
-            break;
-          }
-          auxCurrent = list_next(becas);
-        }
-
-        if(beca == NULL)
-        {
-          printf("No se encontró la beca en el sistema.\n");
-          break;
-        }
-
-        int opcionDatos;
-        do{
-          limpiarPantalla();
-          printf("¿Que datos de la beca desea actualizar?\n");
-          puts("1) Nombre.\n");
-          puts("2) Requisito Socioeconómico.\n");
-          puts("3) Puntaje Ponderado PAES.\n");
-          puts("4) NEM.\n");
-          puts("5) Discapacidad.\n");
-          puts("6) Pueblo Originario.\n");
-          puts("7) Volver");
-          printf("Ingrese su opción: ");
-
-          scanf("%d", &opcionDatos);
-          switch(opcionDatos)
-          {
-            case 1:
-              printf("Nombre actual de la beca: %s\n", beca->nombre);
-              printf("Ingrese el nuevo nombre de la beca: ");
-              scanf(" %[^\n]", beca->nombre);
-              break;
-            case 2:
-              printf("Requisito Socioeconómico actual de la beca: %d\n", beca->socioEconomico);
-              printf("Ingrese el nuevo Requisito Socioeconómico: ");
-              scanf(" %d", &beca->socioEconomico);
-              break;
-            case 3:
-              printf("Puntaje Ponderado PAES actual de la beca: %d\n", beca->notasEM);
-              printf("Ingrese el nuevo Puntaje Ponderado PAES: ");
-              scanf("%d", &beca->notasEM);
-              break;
-            case 4:
-              printf("Promedio NEM actual: %d\n", beca->notasEM);
-              printf("Ingrese el Nuevo Promedio NEM: ");
-              scanf(" %d", &beca->notasEM);
-              break;
-            case 5:
-              if (beca->discapacidad == 0) 
-                  printf("Requisito de Discapacidad: No\n");
-              else printf("Requisito de Discapacidad: Sí\n");
-              printf("Ingrese el Requisito de Discapacidad (no = 0, si = 1): \n");
-              scanf("%d", &beca->discapacidad);
-              break;
-            case 6:
-              if (beca->originario == 0) 
-                printf("Requisito de Pueblo Originario: No\n");
-              else printf("Requisito de Pueblo Originario: Sí\n");
-              printf("Ingrese Requisito de Pueblo Originario (no = 0, si = 1): \n");
-              scanf("%d", &beca->originario);
-              break;
-            case 7:
-              puts("Volviendo al menú anterior..");
-              break;
-            default:
-              printf("Opcion no valida, intente denuevo.\n");
-              break;
-          }
-          presioneTeclaParaContinuar();
-        }while(opcionDatos != 5);
-        break;
-      }
-
-      case 3:
-      {
-        //Eliminar beca
-        char nombreBeca[50];
-        printf("Ingrese el nombre de la beca que desea eliminar: ");
-        scanf(" %[^\n]", nombreBeca);
-
-        tipoBeca *beca = NULL;
-        tipoBeca *auxCurrent = list_first(becas);
-        while(auxCurrent != NULL)
-        {
-          if(strcmp(auxCurrent->nombre, nombreBeca) == 0)
-          {
-            beca = auxCurrent;
-            break;
-          }
-          auxCurrent = list_next(becas);
-        }
-        if(beca == NULL)
-        {
-          printf("No se encontró la beca en el sistema.\n");
-          break;
-        }
-        //list_remove(becas, beca);
-        free(beca);
-        printf("Beca eliminada exitosamente.\n");
-        break;
-      }
-      case 4:
-        puts("Volviendo al menu de administrador...");
-        break;
-
-      default:
-        printf("Opcion no valida, intente denuevo.\n");
-    } 
-  } while(opcion != 4);
-  limpiarPantalla();
+void mostrarBecas(List *becas) {
+    int indice = 1;
+    tipoBeca *beca = list_first(becas);
+    while (beca != NULL) {
+        printf("%d) %s\n", indice, beca->nombre);
+        beca = list_next(becas);
+        indice++;
+    }
 }
 
-void seguimientoBecas(List *becas) {
-  // Realiza un seguimiento de las becas
-  // Aquí debe implementar la lógica para seguimiento de becas
+tipoBeca* seleccionarBeca(List *becas) {
+    int indiceSeleccionado;
+    mostrarBecas(becas);
+    printf("Seleccione el número de la beca: ");
+    scanf("%d", &indiceSeleccionado);
+
+    int indiceActual = 1;
+    tipoBeca *beca = list_first(becas);
+    while (beca != NULL) {
+        if (indiceActual == indiceSeleccionado) {
+            return beca;
+        }
+        beca = list_next(becas);
+        indiceActual++;
+    }
+    return NULL; // Si no se encuentra el índice
+}
+
+
+void agregarNuevaBeca(List *becas) {
+    tipoBeca *nuevaBeca = malloc(sizeof(tipoBeca));
+    if (nuevaBeca == NULL) {
+        printf("Error al reservar memoria para la nueva beca.\n");
+        return;
+    }
+
+    printf("Ingrese el nombre de la beca: \n");
+    scanf(" %[^\n]s", nuevaBeca->nombre);
+    printf("Ingrese el Requisito Socioeconómico de la beca: \n");
+    scanf("%d", &nuevaBeca->socioEconomico);
+    printf("Ingrese el Puntaje Ponderado PAES: \n");
+    scanf("%d", &nuevaBeca->puntaje);
+    printf("Ingrese el Promedio NEM: \n");
+    scanf("%d", &nuevaBeca->notasEM);
+    printf("Ingrese parámetro de discapacidad (1 = sí, 0 = no): \n");
+    scanf("%d", &nuevaBeca->discapacidad);
+    printf("Ingrese parámetro de pueblo originario (1 = sí, 0 = no): \n");
+    scanf("%d", &nuevaBeca->originario);
+
+    list_pushBack(becas, nuevaBeca);
+    printf("Beca agregada exitosamente.\n");
+}
+
+void actualizarBeca(List *becas) {
+    tipoBeca *beca = seleccionarBeca(becas);
+    if (beca == NULL) {
+        printf("Selección inválida. No se encontró la beca en el sistema.\n");
+        return;
+    }
+
+    int opcionDatos;
+    do {
+        limpiarPantalla();
+        printf("¿Qué datos de la beca desea actualizar?\n");
+        puts("1) Nombre.");
+        puts("2) Requisito Socioeconómico.");
+        puts("3) Puntaje Ponderado PAES.");
+        puts("4) NEM.");
+        puts("5) Discapacidad.");
+        puts("6) Pueblo Originario.");
+        puts("7) Volver");
+        printf("Ingrese su opción: ");
+
+        scanf("%d", &opcionDatos);
+        switch(opcionDatos) {
+            case 1:
+                printf("Nombre actual de la beca: %s\n", beca->nombre);
+                printf("Ingrese el nuevo nombre de la beca: ");
+                scanf(" %[^\n]s", beca->nombre);
+                break;
+            case 2:
+                printf("Requisito Socioeconómico actual de la beca: %d\n", beca->socioEconomico);
+                printf("Ingrese el nuevo Requisito Socioeconómico: ");
+                scanf("%d", &beca->socioEconomico);
+                break;
+            case 3:
+                printf("Puntaje Ponderado PAES actual de la beca: %d\n", beca->puntaje);
+                printf("Ingrese el nuevo Puntaje Ponderado PAES: ");
+                scanf("%d", &beca->puntaje);
+                break;
+            case 4:
+                printf("Promedio NEM actual: %d\n", beca->notasEM);
+                printf("Ingrese el Nuevo Promedio NEM: ");
+                scanf("%d", &beca->notasEM);
+                break;
+            case 5:
+                printf("Requisito de Discapacidad actual: %d\n", beca->discapacidad);
+                printf("Ingrese el Requisito de Discapacidad (no = 0, sí = 1): \n");
+                scanf("%d", &beca->discapacidad);
+                break;
+            case 6:
+                printf("Requisito de Pueblo Originario actual: %d\n", beca->originario);
+                printf("Ingrese Requisito de Pueblo Originario (no = 0, sí = 1): \n");
+                scanf("%d", &beca->originario);
+                break;
+            case 7:
+                puts("Volviendo al menú anterior..");
+                break;
+            default:
+                printf("Opción no válida, intente de nuevo.\n");
+                break;
+        }
+        presioneTeclaParaContinuar();
+    } while (opcionDatos != 7);
+}
+
+
+void eliminarBeca(List *becas) {
+    tipoBeca *beca = seleccionarBeca(becas);
+    if (beca == NULL) {
+        printf("Selección inválida. No se encontró la beca en el sistema.\n");
+        return;
+    }
+
+    tipoBeca *becaEliminada = list_popCurrent(becas);
+    if (becaEliminada != NULL) {
+        free(becaEliminada);
+        printf("Beca eliminada exitosamente.\n");
+    } else {
+        printf("Error al intentar eliminar la beca.\n");
+    }
+}
+
+
+
+void gestionarBecas(List *becas) {
+    int opcion;
+    do {
+        limpiarPantalla();
+        puts("1) Agregar nueva beca.");
+        puts("2) Actualizar datos de una beca.");
+        puts("3) Eliminar beca del sistema.");
+        puts("4) Volver menú anterior.");
+
+        printf("Ingrese su opción: ");
+        scanf("%d", &opcion);
+
+        switch(opcion) {
+            case 1:
+                agregarNuevaBeca(becas);
+                break;
+            case 2:
+                actualizarBeca(becas);
+                break;
+            case 3:
+                eliminarBeca(becas);
+                break;
+            case 4:
+                puts("Volviendo al menú de administrador...");
+                break;
+            default:
+                printf("Opción no válida, intente de nuevo.\n");
+        }
+    } while(opcion != 4);
+    limpiarPantalla();
+}
+
+
+// Función para realizar el seguimiento de becas
+void seguimientoBecas(HashMap *estudiantes, List *becas){
+  
 }
