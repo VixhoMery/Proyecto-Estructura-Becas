@@ -240,7 +240,7 @@ int login(int n) {
   char contrasena[20];
 
   printf("Contraseña: ");
-  scanf("%s", contrasena);
+  scanf(" %s", contrasena);
   if (strcmp(contrasena, "admin") == 0) {
     n = 1;
   } else {
@@ -275,6 +275,7 @@ void completarPerfil(HashMap *estudiantes)
 
   //Completacion de los datos del nuevo estudiante.
   printf("Ingrese su nombre del Estudiante: ");
+  getchar(); //limpiar el buffer antes de leer
   scanf(" %[^\n]", nuevoEstudiante->nombreEstudiante);
   strcpy(nuevoEstudiante->rut, rut);
   printf("Ingrese su Porcentaje Socioeconómico: ");
@@ -299,6 +300,7 @@ void postularBeca(HashMap *estudiantes, List *becas, Queue *solicitudes)
   //Solicitar rut del estudiante.
   char rut[12];
   printf("Ingrese su RUT: ");
+  getchar(); //limpiar el buffer antes de leer
   scanf(" %[^\n]s", rut);
 
   if(map_search(estudiantes, rut) == NULL) {
@@ -312,7 +314,7 @@ void postularBeca(HashMap *estudiantes, List *becas, Queue *solicitudes)
   List *becasApeladas = list_create(); 
   int requisitoAprobado = 0;
   
-  printf("Becas disponibles para %s", estudiante->rut);
+  printf("Becas disponibles para: %s\n", estudiante->rut);
   while(aux != NULL){
     
     if(estudiante->socioEconomico <= aux->socioEconomico)
@@ -326,7 +328,7 @@ void postularBeca(HashMap *estudiantes, List *becas, Queue *solicitudes)
     if(estudiante->originario == aux->originario)
       requisitoAprobado++;
 
-    if(requisitoAprobado == 5){
+    if(requisitoAprobado >= 4){
       mostrarBeca(aux, estudiante);
       aux = list_next(becas);
       list_pushBack(becasApeladas, aux);
@@ -341,7 +343,8 @@ void postularBeca(HashMap *estudiantes, List *becas, Queue *solicitudes)
   char opcion;
   char nombreBeca[100];
   printf("Está conforme con su selección de becas (s|n): ");
-  scanf("%c", &opcion);
+  getchar(); //limpiar el buffer antes de leer
+  scanf(" %c", &opcion);
   getchar();
 
   //opción de postular o apelar
@@ -398,6 +401,7 @@ void seguimientoApelacion(HashMap *mapaEstudiantes) {
 
   char rut[12];
   printf("Ingrese su rut: ");
+  getchar(); //limpiar el buffer antes de leer
   scanf("%[^\n]", rut);
   
   Usuario *estudiante = map_search(mapaEstudiantes, rut)->value;
@@ -450,6 +454,7 @@ void gestionarEstudiantes(HashMap *estudiantes)
         //Agregar un estudiante
         char rut[12];
         printf("Ingrese el rut del estudiante a agregar: ");
+        getchar(); //limpiar el buffer antes de leer
         scanf(" %s", rut);
         if(map_search(estudiantes, rut) != NULL)
         {
@@ -465,6 +470,7 @@ void gestionarEstudiantes(HashMap *estudiantes)
         }
 
         printf("Ingrese su nombre del Estudiante: ");
+        getchar(); //limpiar el buffer antes de leer
         scanf(" %[^\n]", newEstudiante->nombreEstudiante);
         strcpy(newEstudiante->rut, rut);
         printf("Ingrese su Porcentaje Socioeconómico: ");
@@ -478,6 +484,8 @@ void gestionarEstudiantes(HashMap *estudiantes)
         printf("Es perteneciente a un pueblo originario? (sí = 1; no = 0): ");
         scanf("%d", &newEstudiante->originario);
 
+        //Verificar beca
+
         map_insert(estudiantes, newEstudiante->rut, newEstudiante);
         printf("Estudiante agregado exitosamente.\n");
         break;
@@ -487,6 +495,7 @@ void gestionarEstudiantes(HashMap *estudiantes)
         //Actualizar datos
           char rut[12];
           printf("Ingrese el rut del estudiante que desea actualizar sus datos: ");
+          getchar(); //limpiar el buffer antes de leer
           scanf(" %s", rut);
 
           Usuario* estudiante = map_search(estudiantes, rut)->value;
@@ -517,6 +526,7 @@ void gestionarEstudiantes(HashMap *estudiantes)
               {
                 printf("Nombre actual del estudiante: %s\n", estudiante->nombreEstudiante);
                 printf("Ingrese el nuevo nombre del estudiante: ");
+                getchar(); //limpiar el buffer antes de leer
                 scanf(" %[^\n]", estudiante->nombreEstudiante);
                 break;
               }
@@ -581,6 +591,7 @@ void gestionarEstudiantes(HashMap *estudiantes)
         //Eliminar estudiante
         char rut[12];
         printf("Ingrese el rut del estudiante a eliminar:");
+        getchar(); //limpiar el buffer antes de leer
         scanf(" %s", rut);
 
         Usuario* estudiante = map_search(estudiantes, rut)->value;
@@ -658,7 +669,8 @@ void revisarSolicitudes(Queue *solicitudes, HashMap *estudiantes)
     }
 
     printf("Desea regresar al menú principal? (s|n): ");
-    scanf("%c", &opcionVolver);
+    getchar(); //limpiar el buffer antes de leer
+    scanf(" %c", &opcionVolver);
 
     switch(opcionVolver) {
       case 's':
@@ -668,7 +680,6 @@ void revisarSolicitudes(Queue *solicitudes, HashMap *estudiantes)
       case 'n':
         break;
     }
-    
     presioneTeclaParaContinuar();
   }
 }
@@ -702,6 +713,7 @@ void gestionarBecas(List *becas)
         }
 
         printf("Ingrese el nombre de la beca: \n");
+        getchar(); //limpiar el buffer antes de leer
         scanf(" %[^\n]s", nuevaBeca->nombre);
         printf("Ingrese el Requisito Socioeconómico de la beca: \n");
         scanf(" %d", &nuevaBeca->socioEconomico);
@@ -723,6 +735,7 @@ void gestionarBecas(List *becas)
         //Actualizar datos de una beca
         char nombreBeca[50];
         printf("Ingrese el nombre de la beca que desea actualizar: ");
+        getchar(); //limpiar el buffer antes de leer
         scanf(" %[^\n]s", nombreBeca);
 
         tipoBeca *beca = NULL;
@@ -762,6 +775,7 @@ void gestionarBecas(List *becas)
             case 1:
               printf("Nombre actual de la beca: %s\n", beca->nombre);
               printf("Ingrese el nuevo nombre de la beca: ");
+              getchar(); //limpiar el buffer antes de leer
               scanf(" %[^\n]", beca->nombre);
               break;
             case 2:
@@ -810,6 +824,7 @@ void gestionarBecas(List *becas)
         //Eliminar beca
         char nombreBeca[50];
         printf("Ingrese el nombre de la beca que desea eliminar: ");
+        getchar(); //limpiar el buffer antes de leer
         scanf(" %[^\n]", nombreBeca);
 
         tipoBeca *beca = NULL;
