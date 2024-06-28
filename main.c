@@ -3,8 +3,9 @@
 #include <string.h>
 #include "extra_y_data/extra.h"
 #include "tdas/list.h"
-#include "tdas/map.h"
+#include "tdas/hashmap.h"
 #include "tdas/queue.h"
+
 
 typedef struct {
     char nombreEstudiante[60];
@@ -37,8 +38,8 @@ typedef struct {
 // Prototipo de funciones
 void presioneTeclaParaContinuar();
 void limpiarPantalla();
-void opcionUsuario(Map*, List*, Queue*);
-void opcionAdmin(Map*, List*, Queue*);
+void opcionUsuario(HashMap*, List*, Queue*);
+void opcionAdmin(HashMap*, List*, Queue*);
 int login(int);
 
 // Prototipos submenús
@@ -51,14 +52,14 @@ void inicializarBecas(List*);
 void mostrarBeca(tipoBeca*, Usuario*);
 
 // Prototipos funciones de usuario
-void completarPerfil(Map*);
-void postularBeca(Map*, List*, Queue*);
+void completarPerfil(HashMap*);
+void postularBeca(HashMap*, List*, Queue*);
 void apelar(Usuario*, Queue*, List*);
-void seguimientoApelacion(Map*);
+void seguimientoApelacion(HashMap*);
 
 // Prototipos funciones de administrador
-void gestionarEstudiantes(Map *);
-void revisarSolicitudes(Queue *, Map*);
+void gestionarEstudiantes(HashMap *);
+void revisarSolicitudes(Queue *, HashMap*);
 void gestionarBecas(List *);
 void aprobarRechazarSolicitudes(Queue *);
 void seguimientoBecas(List *);
@@ -116,7 +117,7 @@ void mostrarLogo() {
 
 int main() {
   mostrarLogo();
-  Map *estudiantes = map_create((int (*)(void*, void*))strcmp);
+  HashMap *estudiantes = map_create(200);
   List *becas = list_create();
   Queue *solicitudes = queue_create(NULL);
   inicializarBecas(becas);
@@ -175,7 +176,7 @@ void inicializarBecas(List *listaBecas) {
   }
 }
 
-void opcionUsuario(Map *estudiantes, List *becas, Queue *solicitudes) {
+void opcionUsuario(HashMap *estudiantes, List *becas, Queue *solicitudes) {
   int opcion;
 
   do {
@@ -204,7 +205,7 @@ void opcionUsuario(Map *estudiantes, List *becas, Queue *solicitudes) {
   limpiarPantalla();
 }
 
-void opcionAdmin(Map *estudiantes, List *becas, Queue *solicitudes) {
+void opcionAdmin(HashMap *estudiantes, List *becas, Queue *solicitudes) {
   int opcion;
   do {
     limpiarPantalla();
@@ -250,7 +251,7 @@ int login(int n) {
 
 
 // Funciones para las funcionalidades de estudiante
-void completarPerfil(Map *estudiantes)
+void completarPerfil(HashMap *estudiantes)
 {
   //Solicitar un Rut primero para verificar duplicados.
   char rut[12];
@@ -293,7 +294,7 @@ void completarPerfil(Map *estudiantes)
   printf("Perfil completado exitosamente.\n");
 }
 
-void postularBeca(Map *estudiantes, List *becas, Queue *solicitudes)
+void postularBeca(HashMap *estudiantes, List *becas, Queue *solicitudes)
 {
   //Solicitar rut del estudiante.
   char rut[12];
@@ -393,7 +394,7 @@ void apelar(Usuario *estudiante, Queue *cola, List *becasApeladas) {
   printf("Apelación realizada exitosamente");
 }
 
-void seguimientoApelacion(Map *mapaEstudiantes) {
+void seguimientoApelacion(HashMap *mapaEstudiantes) {
 
   char rut[12];
   printf("Ingrese su rut: ");
@@ -428,7 +429,7 @@ void seguimientoApelacion(Map *mapaEstudiantes) {
 }
 
 // Funciones para las funcionalidades de administrador
-void gestionarEstudiantes(Map *estudiantes)
+void gestionarEstudiantes(HashMap *estudiantes)
 {
   // Similar a completarPerfil, pero con opciones para agregar, actualizar y eliminar
   int opcion;
@@ -605,7 +606,7 @@ void gestionarEstudiantes(Map *estudiantes)
   limpiarPantalla();
 }
 
-void revisarSolicitudes(Queue *solicitudes, Map *estudiantes)
+void revisarSolicitudes(Queue *solicitudes, HashMap *estudiantes)
 {
   if(queue_front(solicitudes) == NULL)
   {
