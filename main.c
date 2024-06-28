@@ -91,6 +91,7 @@ void mostrarMenuAdminAlumno()
   puts("3) Salir");
 }
 
+<<<<<<< HEAD
 //Menu alummno
 void mostrarMenuAlumno()
 {
@@ -98,6 +99,12 @@ void mostrarMenuAlumno()
   printf("|             MENU ALUMNO               |\n");
   printf("=========================================\n");
   puts("Seleccione una opción:");
+=======
+void mostrarMenuAlumno(){
+  puts("===============================");
+  puts("         MENÚ ALUMNOS");
+  puts("===============================");
+>>>>>>> 9d92b50ce329b366b94fdb4c14bc016c09e90d4b
   puts("1) Ingresar o Completar perfil");
   puts("2) Postular a Beca");
   puts("3) Seguimiento de apelación");
@@ -128,8 +135,12 @@ void mostrarLogo()
     printf("|____/ \\___|\\___\\__,_|   |_||_|  \\__,_|\\___|_|\\_\\\n");
     printf("                                                 \n");
     printf("==========================================================\n");
+<<<<<<< HEAD
     printf("       Bienvenido a BECA TRACK\n");
     printf("==========================================================\n\n");
+=======
+
+>>>>>>> 9d92b50ce329b366b94fdb4c14bc016c09e90d4b
 }
 
 // Función para inicializar mapa comparando rut
