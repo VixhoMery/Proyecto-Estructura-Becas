@@ -255,52 +255,7 @@ int login(int n) {
   return n;
 }
 
-/*)
-// Funciones para las funcionalidades de estudiante
-void completarPerfil(HashMap *estudiantes)
-{
-  //Solicitar un Rut primero para verificar duplicados.
-  char rut[12];
-  printf("Ingrese su Rut: ");
-  scanf(" %s", rut);
 
-  //Verificar si el estudiante existe en el mapa.
-  if(map_search(estudiantes, rut) != NULL)
-  {
-    //Dependiendo que quieran implementar, se puede mostrar un mensaje de error o si quieren implementar una verificacion que los datos del estudiante esten completamente ingresados.
-    printf("El estudiante ya se encuentra registrado, sus datos serán actualizados.\n");
-  }
-
-
-  //Reservar memoria para un nuevo estudiante
-  Usuario *nuevoEstudiante = malloc(sizeof(Usuario));
-  if(nuevoEstudiante == NULL){
-    printf("Error al reservar memoria para el estudiante.\n");
-    return;
-  }
-
-  //Completacion de los datos del nuevo estudiante.
-  printf("Ingrese su nombre del Estudiante: ");
-  scanf(" %[^\n]", nuevoEstudiante->nombreEstudiante);
-  strcpy(nuevoEstudiante->rut, rut);
-  printf("Ingrese su Porcentaje Socioeconómico: ");
-  scanf(" %d", &nuevoEstudiante->socioEconomico);
-  printf("Ingrese su Puntaje Ponderado PAES: ");
-  scanf("%d", &nuevoEstudiante->puntaje);
-  printf("Ingrese su Promedio NEM: ");
-  scanf("%d", &nuevoEstudiante->notasEM);
-  printf("Posee alguna discapacidad? (sí = 1; no = 0): ");
-  scanf("%d", &nuevoEstudiante->discapacidad);
-  printf("Es perteneciente a un pueblo originario? (sí = 1; no = 0): ");
-  scanf("%d", &nuevoEstudiante->originario);
-
-
-  //Insertar el uevo estudiante en el mapa.
-  map_insert(estudiantes, nuevoEstudiante->rut, nuevoEstudiante);
-  printf("Perfil completado exitosamente.\n");
-}
-
-*/
 int validarRUT(const char *rut) {
   int sum = 0, factor = 2, length = strlen(rut) - 2;
   for (int i = length - 1; i >= 0; i--) {
