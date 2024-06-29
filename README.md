@@ -46,7 +46,7 @@ La aplicación cuenta con dos menús, para el estudiante y para el administrador
 - 
 
 ## A mejorar.
-- 
+- Implementar una interfaz más agradable visualmente.
 - Implementar un archivo csv para cargar los datos de estudiantes ya existentes, asi como guardar datos de estudiantes luego del tiempo de ejecucion del programa.
 
 ### Contribuciones de cada integrante.
