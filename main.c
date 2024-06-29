@@ -409,7 +409,7 @@ void guardarPostulacion(HashMap *estudiantes, Usuario *estudiante, tipoBeca *bec
     while (nodoActual != NULL) {
         tipoBeca *becaActual = (tipoBeca *)nodoActual->data;
         if (strcmp(becaActual->nombre, becaSeleccionada->nombre) == 0) {
-            printf("Esta beca se encuentra actualmente dentro del perfil del usuario %s.\n", estudiante->nombreEstudiante);
+            printf("\nEsta beca se encuentra actualmente dentro del perfil del usuario %s.\n", estudiante->nombreEstudiante);
             return;  // Salir de la función ya que la beca ya está en la lista
         }
         nodoActual = nodoActual->next;
