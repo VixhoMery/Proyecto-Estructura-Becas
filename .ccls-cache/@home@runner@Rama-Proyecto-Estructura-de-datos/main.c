@@ -404,11 +404,34 @@ void guardarPostulacion(HashMap *estudiantes, Usuario *estudiante, tipoBeca *bec
         usuario->becasEstudiantes = becasEstudiante;
     }
 
+    // Verificar si la beca ya está en la lista de becas del estudiante
+    Node *nodoActual = becasEstudiante->head;
+    while (nodoActual != NULL) {
+        tipoBeca *becaActual = (tipoBeca *)nodoActual->data;
+        if (strcmp(becaActual->nombre, becaSeleccionada->nombre) == 0) {
+            printf("Esta beca se encuentra actualmente dentro del perfil del usuario %s.\n", estudiante->nombreEstudiante);
+            return;  // Salir de la función ya que la beca ya está en la lista
+        }
+        nodoActual = nodoActual->next;
+    }
+
     // Agregar la beca seleccionada a la lista de becas del estudiante
     list_pushBack(becasEstudiante, becaSeleccionada);
 
-    printf("Postulación guardada con éxito para el estudiante %s a la beca %s!\n", estudiante->rut, becaSeleccionada->nombre);
+    // Mostrar las becas actuales del estudiante
+    printf("\nBecas actuales de %s:\n", estudiante->nombreEstudiante);
+    nodoActual = becasEstudiante->head;  // Reiniciar el nodoActual para mostrar las becas
+    int index = 1;
+    while (nodoActual != NULL) {
+        tipoBeca *becaActual = (tipoBeca *)nodoActual->data;
+        printf("%d. %s\n", index, becaActual->nombre);
+        nodoActual = nodoActual->next;
+        index++;
+    }
+
+    printf("\nPostulación guardada con éxito para el estudiante %s a la beca %s!\n", estudiante->nombreEstudiante, becaSeleccionada->nombre);
 }
+
 
 
 // Función principal para postular a becas
