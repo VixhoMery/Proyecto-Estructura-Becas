@@ -65,6 +65,9 @@ void gestionarBecas(List *);
 void aprobarRechazarSolicitudes(Queue *);
 void seguimientoBecas(HashMap *estudiantes, List *becas);
 
+//Prototipo ContarEstudiantes
+int count_students(HashMap *map);
+
 // Prototipo de función para validar RUT
 int validarRUT(const char* rut);
 
@@ -155,6 +158,17 @@ int main() {
   presioneTeclaParaContinuar();
   limpiarPantalla();
   return 0;
+}
+
+// Función para contar el número de elementos en el HashMap
+int count_students(HashMap *map) {
+    int size = 0;
+    MapPair *pair = marp_first(map);
+    while (pair != NULL) {
+        size++;
+        pair = map_next(map);
+    }
+    return size;
 }
 
 //Funcion para inicializar becas
@@ -252,7 +266,7 @@ void opcionAdmin(HashMap *estudiantes, List *becas, Queue *solicitudes) {
   limpiarPantalla();
 }
 
-//Nuestro super login el cual nos permite ingresar como administrador o como usuario y jamas, pero de los jamases tendria vulnerabilidades XD!
+//Nuestro super login el cual nos permite ingresar como administrador o como usuario. Jamas, pero de los jamases tendria vulnerabilidades XD!
 int login(int n) {
   char contrasena[20];
 
@@ -897,7 +911,39 @@ void gestionarBecas(List *becas) {
 }
 
 
+
+
 // Función para realizar el seguimiento de becas
-void seguimientoBecas(HashMap *estudiantes, List *becas){
-  
+void seguimientoBecas(HashMap *estudiantes, List *becas) {
+    tipoBeca *beca = list_first(becas);
+    int totalEstudiantes = count_students(estudiantes); // Número total de estudiantes en el sistema
+    printf("Total de estudiantes en el sistema: %d\n\n", totalEstudiantes);
+
+    while (beca != NULL) {
+        int contador = 0;
+        MapPair *pair = marp_first(estudiantes);
+
+        while (pair != NULL) {
+            Usuario *estudiante = (Usuario *)pair->value;
+            // Verificar si el estudiante cumple con los requisitos de la beca
+            if (estudiante->socioEconomico >= beca->socioEconomico &&
+                estudiante->puntaje >= beca->puntaje &&
+                estudiante->notasEM >= beca->notasEM &&
+                estudiante->discapacidad == beca->discapacidad &&
+                estudiante->originario == beca->originario) {
+                contador++;
+            }
+            pair = map_next(estudiantes);
+        }
+
+        // Calcular el porcentaje de obtención
+        double porcentaje = (double)contador / totalEstudiantes * 100;
+
+        // Mostrar los resultados
+        printf("\nBeca: %s\n", beca->nombre);
+        printf("Cantidad de usuarios que pudieron acceder: %d\n", contador);
+        printf("Porcentaje de obtención: %.2f%%\n", porcentaje);
+
+        beca = list_next(becas);
+    }
 }
