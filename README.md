@@ -8,13 +8,13 @@ La aplicación "BecaTrack" es una aplicación diseñada para la gestión de beca
 ## Cómo compilar y ejecutar
 Dado que el sistema está diseñado para ser accesible y fácil de probar, recomendamos usar Repl.it para una rápida configuración y ejecución. Sigue estos pasos para comenzar:
 
-Visita Repl.it.
-Crea una nueva cuenta o inicia sesión si ya tienes una.
-Una vez en tu dashboard, selecciona "New Repl" y elige "Import from GitHub".
-Pega la URL del repositorio: https://github.com/VixhoMery/Proyecto-Estructura-Becas
-Repl.it clonará el repositorio y preparará un entorno de ejecución.
-En la pestaña "Configurate Repl", sección "Configure the Compile Command", escriba o pegue de preferencia el siguiente comando "make -s" y presione "confirm and close". Igualmente se puede configurar dentro del archivo oculto de replit en .replit, cambiar el compile a compile = ["make", "-s"]  
-Presiona el botón "Run" para compilar y ejecutar la aplicación.
+1. Visita Repl.it.
+2. Crea una nueva cuenta o inicia sesión si ya tienes una.
+3. Una vez en tu dashboard, selecciona "New Repl" y elige "Import from GitHub".
+4. Pega la URL del repositorio: https://github.com/VixhoMery/Proyecto-Estructura-Becas
+5. Repl.it clonará el repositorio y preparará un entorno de ejecución.
+6. En la pestaña "Configurate Repl", sección "Configure the Compile Command", escriba o pegue de preferencia el siguiente comando "make -s" y presione "confirm and close". Igualmente se puede configurar dentro del archivo oculto de replit en .replit, cambiar el compile a compile = ["make", "-s"]  
+7. Presiona el botón "Run" para compilar y ejecutar la aplicación.
 
 
 ## Funcionalidades Principales.
