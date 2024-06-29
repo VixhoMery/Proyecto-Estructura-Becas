@@ -16,16 +16,13 @@ La aplicación cuenta con dos menús, para el estudiante y para el administrador
 - Gestión de estudiantes.
 - Revisar solicitudes de apelación.
 - Gestión de becas.
-- Seguimiento de becas.
 
 ## Funcionando correctamente.
 -
 -
 
 ## Problemas conocidos.
-- Funcionalidad de postulación a becas.(ERROR AL MOMENTO DE MOSTRAR LA LISTA DE BECAS A POSTULAR, NO SE ASIGNAN BECAS) Falta implementar correcta logica
-- Falta implementar tabla hash
-- 
+- Problemas con la funcion de seguimiento de becas.
 
 ## A mejorar.
 - Asignar valores a las variables de discapacidad y originario.(Implementar funcion ya que se repite en varias funcionalidades la conversion de char a int)
