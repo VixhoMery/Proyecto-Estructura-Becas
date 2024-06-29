@@ -16,6 +16,18 @@ Dado que el sistema está diseñado para ser accesible y fácil de probar, recom
 6. En la pestaña "Configurate Repl", sección "Configure the Compile Command", escriba o pegue de preferencia el siguiente comando "make -s" y presione "confirm and close". Igualmente se puede configurar dentro del archivo oculto de replit en .replit, cambiar el compile a compile = ["make", "-s"]  
 7. Presiona el botón "Run" para compilar y ejecutar la aplicación.
 
+En caso de que aún así el programa no se pueda ejecutar, en la pestaña shell ingrese 
+el siguiente comando para compilar:
+
+````
+clang -g -Wno-everything -pthread -lm ./tdas/hashmap.c ./tdas/list.c ./extra_y_data/extra.c ./main.c -o "main"
+````
+
+Y para ejecutar ingrese:
+````
+./main
+````
+
 
 ## Funcionalidades Principales.
 La aplicación cuenta con dos menús, para el estudiante y para el administrador, el administrador cuenta con una contraseña externa con la cual puede acceder a su menú. (Contraseña menú administrador: admin)

@@ -448,7 +448,7 @@ void postularBeca(HashMap *estudiantes, List *becas, Queue *solicitudes) {
         if (estudiante->originario == aux->originario)
             requisitosCumplidos++;
 
-        if (requisitosCumplidos == 5) {  // Verifica si todos los requisitos de la beca son cumplidos
+        if (requisitosCumplidos >= 4) {  // Verifica si los requisitos de la beca son cumplidos
             printf("%d. ", i);  // Mostrar número de beca
             mostrarBeca(aux, estudiante);  // Mostrar detalles de la beca
             becasEncontradas++;
@@ -505,85 +505,6 @@ void postularBeca(HashMap *estudiantes, List *becas, Queue *solicitudes) {
             printf("Opción no válida, intente de nuevo.\n");
     }
 }
-
-/*
-  
-// Función principal para postular a becas
-void postularBeca(HashMap *estudiantes, List *becas, Queue *solicitudes) {
-    // Solicitar rut del estudiante
-    char rut[12];
-    printf("Ingrese su RUT: ");
-    scanf(" %[^\n]s", rut);
-
-    // Verificar si el estudiante está registrado
-    if (map_search(estudiantes, rut) == NULL) {
-        printf("Error: No se encuentra al estudiante en el sistema.\n");
-        return;
-    }
-
-    // Obtener datos del estudiante
-    Usuario *estudiante = map_search(estudiantes, rut)->value;
-
-    // Mostrar becas disponibles para el estudiante
-    printf("\nBecas disponibles para %s:\n", estudiante->rut);
-    int becasEncontradas = 0;
-    List *becasApeladas = list_create(); // Lista para almacenar becas a elección
-    tipoBeca *aux = list_first(becas);
-
-    while (aux != NULL) {
-        int requisitosCumplidos = 0;
-
-        // Comparar requisitos de beca con datos del estudiante
-        if (estudiante->socioEconomico <= aux->socioEconomico)
-            requisitosCumplidos++;
-        if (estudiante->puntaje >= aux->puntaje)
-            requisitosCumplidos++;
-        if (estudiante->notasEM >= aux->notasEM)
-            requisitosCumplidos++;
-        if (estudiante->discapacidad == aux->discapacidad)
-            requisitosCumplidos++;
-        if (estudiante->originario == aux->originario)
-            requisitosCumplidos++;
-
-        if (requisitosCumplidos == 5) {
-            mostrarBeca(aux, estudiante);
-            becasEncontradas++;
-            list_pushBack(becasApeladas, aux);
-        }
-
-        aux = list_next(becas);
-    }
-
-    if (becasEncontradas == 0) {
-        printf("No hay becas disponibles para usted en este momento.\n");
-        return;
-    }
-
-    // Confirmación de elección de beca
-    char opcion;
-    printf("Está conforme con su selección de becas (s/n): ");
-    scanf(" %c", &opcion);
-    getchar(); // Limpiar el buffer de entrada
-
-    switch (opcion) {
-        case 's':
-            estudiante->apela = 0;
-            printf("Ingrese el nombre de la beca que desea postular: ");
-            char nombreBeca[100];
-            scanf(" %[^\n]", nombreBeca);
-            printf("Postulación realizada y aprobada con éxito!\n");
-            break;
-        case 'n':
-            apelar(estudiante, solicitudes, becasApeladas);
-            estudiante->apela = 1;
-            break;
-        default:
-            printf("Opción no válida, intente de nuevo.\n");
-    }
-}
-
-
-*/
 
 void apelar(Usuario *estudiante, Queue *cola, List *becasApeladas) {
     char motivos[200];

@@ -1,7 +1,18 @@
 #ifndef LIST_H
 #define LIST_H
 
-typedef struct List List;
+typedef struct Node {
+  void *data;
+  struct Node *next;
+  struct Node *prev;
+} Node;
+
+typedef struct List {
+  Node *head;
+  Node *tail;
+  Node *current;
+  int size;
+} List;
 
 // Esta función crea una lista vacía y devuelve un puntero a la lista.
 List *list_create();
@@ -40,4 +51,5 @@ void list_sortedInsert(List *L, void *data,
 
 int list_size(List* L);
 
-#endif
+#endif // LIST_H
+
