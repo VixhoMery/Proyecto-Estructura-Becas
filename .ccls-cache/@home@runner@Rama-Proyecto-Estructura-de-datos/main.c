@@ -303,7 +303,8 @@ void completarPerfil(HashMap *estudiantes) {
         printf("Error al reservar memoria para el usuario.\n");
         return;
     }
-    printf("Si su rut termina en K, ingreselo con un 0 al final.\n");
+
+    printf("Si su RUT termina en K, ingréselo con un 0 al final.\n");
     printf("Ingrese RUT: ");
     scanf("%s", nuevoUsuario->rut);
 
@@ -324,7 +325,6 @@ void completarPerfil(HashMap *estudiantes) {
       printf("Puntaje inválido. Debe estar entre 150 y 1000.\n");
       free(nuevoUsuario);
       return;
-    
     }
     printf("Ingrese su NEM (Notas de Enseñanza Media): ");
     scanf("%d", &nuevoUsuario->notasEM);
@@ -349,28 +349,29 @@ void completarPerfil(HashMap *estudiantes) {
     printf("¿Tiene alguna discapacidad? %s\n", nuevoUsuario->discapacidad ? "Sí" : "No");
     printf("¿Es originario? %s\n", nuevoUsuario->originario ? "Sí" : "No");
 
-  char confirmacion[10]; // Aumentado el tamaño para permitir "si" o "no"
-  while (1) {
-      printf("¿Son correctos estos datos? (si/no): ");
-      scanf(" %9s", confirmacion); // Limita la lectura a 9 caracteres para evitar desbordamientos
+    char confirmacion[10]; // Aumentado el tamaño para permitir "si" o "no"
+    while (1) {
+        printf("¿Son correctos estos datos? (si/no): ");
+        scanf(" %9s", confirmacion); // Limita la lectura a 9 caracteres para evitar desbordamientos
 
-      if (strcmp(confirmacion, "si") == 0) {
-          // Insertar el nuevo usuario en el hashmap
-          map_insert(estudiantes, nuevoUsuario->rut, nuevoUsuario);
-          printf("Perfil completado exitosamente.\n");
-          break; // Salir del bucle si la confirmación es "si"
-      } else if (strcmp(confirmacion, "no") == 0) {
-          // Liberar la memoria reservada si los datos no son confirmados
-          free(nuevoUsuario);
-          printf("Ingreso de datos cancelado.\n");
-          break; // Salir del bucle si la confirmación es "no"
-      } else {
-          printf("Por favor, ingrese 'si' o 'no'.\n");
-          // Limpiar el búfer de entrada para evitar problemas en la siguiente iteración del bucle
-          while (getchar() != '\n');
-      }
-  }
+        if (strcmp(confirmacion, "si") == 0) {
+            // Insertar el nuevo usuario en el hashmap
+            map_insert(estudiantes, nuevoUsuario->rut, nuevoUsuario);
+            printf("Perfil completado exitosamente.\n");
+            break; // Salir del bucle si la confirmación es "si"
+        } else if (strcmp(confirmacion, "no") == 0) {
+            // Liberar la memoria reservada si los datos no son confirmados
+            free(nuevoUsuario);
+            printf("Ingreso de datos cancelado.\n");
+            break; // Salir del bucle si la confirmación es "no"
+        } else {
+            printf("Por favor, ingrese 'si' o 'no'.\n");
+            // Limpiar el búfer de entrada para evitar problemas en la siguiente iteración del bucle
+            while (getchar() != '\n');
+        }
+    }
 }
+
 
 
 void mostrarBeca(tipoBeca *beca, Usuario *estudiante){
@@ -443,12 +444,12 @@ void postularBeca(HashMap *estudiantes, List *becas, Queue *solicitudes) {
             requisitosCumplidos++;
         if (estudiante->notasEM >= aux->notasEM)
             requisitosCumplidos++;
-        if (estudiante->discapacidad == aux->discapacidad)
+        if (estudiante->discapacidad == aux->discapacidad) // Se debe cumplir exactamente el requisito de discapacidad
             requisitosCumplidos++;
-        if (estudiante->originario == aux->originario)
+        if (estudiante->originario == aux->originario)   // Se debe cumplir exactamente el requisito de originario
             requisitosCumplidos++;
 
-        if (requisitosCumplidos >= 4) {  // Verifica si los requisitos de la beca son cumplidos
+        if (requisitosCumplidos >= 5) {  // Verifica si los requisitos de la beca son cumplidos
             printf("%d. ", i);  // Mostrar número de beca
             mostrarBeca(aux, estudiante);  // Mostrar detalles de la beca
             becasEncontradas++;
@@ -996,7 +997,7 @@ void seguimientoBecas(HashMap *estudiantes, List *becas) {
 
         while (pair != NULL) {
             Usuario *estudiante = (Usuario *)pair->value;
-            // Verificar si el estudiante cumple con los requisitos de la beca
+
             if (estudiante->socioEconomico >= beca->socioEconomico &&
                 estudiante->puntaje >= beca->puntaje &&
                 estudiante->notasEM >= beca->notasEM &&
@@ -1004,7 +1005,7 @@ void seguimientoBecas(HashMap *estudiantes, List *becas) {
                 estudiante->originario == beca->originario) {
                 contador++;
             }
-            pair = map_next(estudiantes);  // Obtener el siguiente par del mapa
+            pair = map_next(pair);  // Obtener el siguiente par del mapa
         }
 
         // Calcular el porcentaje de obtención
@@ -1015,6 +1016,7 @@ void seguimientoBecas(HashMap *estudiantes, List *becas) {
         printf("Cantidad de usuarios que pudieron acceder: %d\n", contador);
         printf("Porcentaje de obtención: %.2f%%\n\n", porcentaje);
 
-        beca = (tipoBeca *)list_next(becas);  // Avanzar al siguiente elemento de la lista de becas
+        tipoBeca *siguienteBeca = (tipoBeca *)list_next(becas);  // Guardar el siguiente elemento
+        beca = siguienteBeca;  // Avanzar al siguiente elemento en la lista de becas
     }
 }
