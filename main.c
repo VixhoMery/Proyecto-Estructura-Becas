@@ -33,7 +33,7 @@ typedef struct {
     List *becasEstudiantes;
     char estado[20]; // Estado puede ser "En revisión", "Aprobada", "Rechazada"
     char motivos[200]; // Razón de apelación
-} Solicitud;
+} Apelacion;
 
 
 
@@ -595,7 +595,7 @@ void apelar(Usuario *estudiante, Queue *cola, List *becasApeladas) {
     printf("Ingrese los motivos de su apelación (máx. 200 caracteres):\n");
     scanf(" %[^\n]", motivos);
 
-    Solicitud *apelacion = malloc(sizeof(Solicitud));
+    Apelacion *apelacion = malloc(sizeof(Apelacion));
     if (apelacion == NULL) {
         printf("Error de reserva de memoria.\n");
         return;
@@ -835,7 +835,7 @@ void revisarSolicitudes(Queue *solicitudes, HashMap *estudiantes) {
         return;
     }
 
-    Solicitud* solicitud;
+    Apelacion* solicitud;
     int opcion;
     char opcionVolver;
 
