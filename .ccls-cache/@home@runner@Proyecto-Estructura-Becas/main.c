@@ -663,6 +663,7 @@ void revisarSolicitudes(Queue *solicitudes, HashMap *estudiantes)
     //Imprimir la lista de becas
     while(aux != NULL) {
       printf("Nombre de la beca: %s\n", aux->nombre);
+      list_next(solicitud->becasEstudiantes);
     }
     
     printf("Estado actual de la solicitud: %s\n", solicitud->estado);
