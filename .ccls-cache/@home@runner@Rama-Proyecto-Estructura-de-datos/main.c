@@ -296,9 +296,6 @@ int validarRUT(const char *rut) {
 }
 
 
-
-
-
 // Función para completar perfil
 void completarPerfil(HashMap *estudiantes) {
     Usuario *nuevoUsuario = (Usuario *) malloc(sizeof(Usuario));
@@ -376,7 +373,6 @@ void completarPerfil(HashMap *estudiantes) {
 }
 
 
-
 void mostrarBeca(tipoBeca *beca, Usuario *estudiante){
     printf("Nombre Beca: %s\n", beca->nombre);
     printf("Requisito Socioeconómico: %d\n", beca->socioEconomico);
@@ -386,7 +382,6 @@ void mostrarBeca(tipoBeca *beca, Usuario *estudiante){
     printf("Pueblo Originario: %s\n", beca->originario ? "Sí" : "No");
     printf("\n\n");
 }
-
 
 
 void guardarPostulacion(HashMap *estudiantes, Usuario *estudiante, tipoBeca *becaSeleccionada) {
@@ -1030,8 +1025,6 @@ void eliminarBeca(List *becas) {
     }
 }
 
-
-
 void gestionarBecas(List *becas) {
     int opcion;
     do {
@@ -1063,8 +1056,6 @@ void gestionarBecas(List *becas) {
     } while(opcion != 4);
     limpiarPantalla();
 }
-
-
 
 
 void seguimientoBecas(HashMap *estudiantes, List *becas) {
