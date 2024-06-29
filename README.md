@@ -41,9 +41,7 @@ La aplicación cuenta con dos menús, para el estudiante y para el administrador
 - La función para gestionar becas se encuentra operativa, permite agregar nuevas becas al sistema, modificar los requisitos de becas ya existentes, asi como eliminar becas del sistema.
 
 ## Problemas conocidos.
-- 
-- 
-- 
+- Función de seguimiento de beca en el menú de administrador, no funciona correctamente. 
 
 ## A mejorar.
 - Implementar una interfaz más agradable visualmente.
