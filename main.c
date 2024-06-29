@@ -282,7 +282,7 @@ int login(int n) {
   return n;
 }
 
-
+//Funcion validarRut para casos
 int validarRUT(const char *rut) {
   int sum = 0, factor = 2, length = strlen(rut) - 2;
   for (int i = length - 1; i >= 0; i--) {
